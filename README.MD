@@ -3,10 +3,14 @@
 
 ## **Requirement**
 ---
-    npm > 14.x
-    yarn >2.x
+    npm = 14.x
+    yarn > 2.x
+    os: Linux
 ## **Installing**
 ---
-    npm install
-    npm install --global windows-build-tools --vs2015
-    npm install --save opencv4nodejs --vs2015
+```
+npm install
+```
+
+   
+   
