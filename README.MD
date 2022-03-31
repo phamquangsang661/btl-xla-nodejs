@@ -21,4 +21,12 @@ npm install
 
 - Edit dockerfile.sample and create your container
 
+```Dockerfile
+FROM ubuntu:18.04
+# you can add more packages here 
+RUN apt-get update 
+# apt-get install -y <package>
+EXPOSE 6001 
+```
+
    
