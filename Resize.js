@@ -1,7 +1,7 @@
 const sharp = require('sharp');
 const { uuid } = require('uuidv4');
 const path = require('path');
-
+const cv = require('opencv4nodejs');
 class Resize {
     constructor(folder) {
         this.folder = folder;
@@ -17,7 +17,7 @@ class Resize {
             })
             .toFile(filepath);
 
-        return filename;
+        return { filename, filepath };
     }
     static filename() {
         return `${uuid()}.png`;
