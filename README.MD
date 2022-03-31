@@ -15,9 +15,10 @@ npm install
 
 ## **Docker**
 ---
-Should use ubuntu for best result
+**Image**: node image (npm satisfied version) or you can choose for your own
 
-Image: node image (npm satisfied version) or you can choose for your own
+- Should use ubuntu for best result
 
-   
+- Edit dockerfile.sample and create your container
+
    
