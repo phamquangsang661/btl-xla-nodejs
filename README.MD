@@ -29,4 +29,14 @@ RUN apt-get update
 EXPOSE 6001 
 ```
 
+- dockerfile in this root is complete dockerfile with docker-compose
+## **Docker Compose**
+---
+- You should install docker-compose first
+
+- Run this command below in your directory contain docker-compose.yml 
+
+```bash
+docker-compose up -d #Run in background with -d option
+```
    
