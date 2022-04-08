@@ -10,9 +10,4 @@ services:
     env_file: .env
     ports:
       - "6001:6001"
-    volumes:
-      - .:/btl-xla-nodejs
-      - node_modules:/btl-xla-nodejs/node_modules
-    networks:
-      - app-network
     command: npm start
