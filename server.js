@@ -6,6 +6,9 @@ const app = express();
 const port = process.env.PORT || 6001;
 const router = require('./router');
 
+//Access for public url
+app.use(express.static('public'))
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
