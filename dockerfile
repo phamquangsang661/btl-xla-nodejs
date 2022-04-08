@@ -1,7 +1,9 @@
 FROM ubuntu:18.04
 ENV NODE_VERSION 14.19.1
-RUN apt-get update && apt-get install -y git curl
-ENV NVM_DIR /usr/local/nvm 
+RUN apt-get update && apt-get install -y git \ 
+                                        curl \
+                                        npm
+ENV NVM_DIR .
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
