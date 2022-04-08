@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  nodejs-server:
+  nodejs-server-docker:
     build:
       context: .
       dockerfile: Dockerfile

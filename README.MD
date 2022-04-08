@@ -5,10 +5,10 @@
 ---
     npm = 14.x
     yarn > 2.x
-    os: Linux
+    os: Ubuntu
 ## **Installing**
 ---
-You should install cmake and build-essential before npm install
+You should install cmake and build-essential(Ubuntu) before npm install
 ```
 npm install
 ```
@@ -17,7 +17,7 @@ npm install
 ---
 **Image**: node image (npm satisfied version) or you can choose for your own
 
-- Should use ubuntu for best result
+- Should use ubuntu, alpine for best result
 
 - Edit dockerfile.sample and create your container
 
