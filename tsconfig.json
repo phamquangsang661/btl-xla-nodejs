@@ -106,6 +106,10 @@
   },
   "include": [
     "./utils",
-    "./router"
-  ]   
+    "./router",
+    "global.d.ts"
+  ],   
+  "files": [
+    "global.d.ts"
+  ]
 }

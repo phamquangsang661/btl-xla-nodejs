@@ -4,11 +4,11 @@ const router = express.Router();
 import { Resize } from '@utils';
 import { uploadMiddleware } from "@middleware"
 router.get('/', async function (req: any, res: any) {
-    console.log("You are in index")
     await res.render('index');
 });
 
 router.post('/post', uploadMiddleware.single('image'), async function (req: any, res: any) {
+    
     const imagePath = path.join(__dirname, '../public/images');
     const fileUpload = new Resize(imagePath);
     if (!req.file) {
