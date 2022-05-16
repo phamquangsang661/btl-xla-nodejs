@@ -1,13 +1,17 @@
 import cv from 'opencv4nodejs';
 import { join } from 'path';
 import np from 'numjs';
+import {
+  complexMultiplyFilter,
+  convertComplexNumber,
+  createImagePadding,
+  getIDFTReal,
+  removeImagePadding
+} from 'utils/utils';
 const { uuid } = require('uuidv4');
 interface idealFilter {
   imgName: string;
   array: {
-    row: number;
-    col: number;
-    data: number[][];
     D0: number;
     order: number;
   };
@@ -20,29 +24,50 @@ export const butterworthLowPassFilter = async (
   const filePath = join('./public/images', imgName);
   const img = await cv.imreadAsync(filePath);
 
-  const { D0, order, row, col, data } = array;
-  
-  let arrayNP = np.array(data, 'float32');
-  const center = [Math.floor(row / 2), Math.floor(col / 2)];
+  const { D0, order } = array;
 
-  for (let i = 0; i < row; i++)
-    for (let j = 0; j < col; j++) {
+  //   Convert to 2d dimension only
+  const [M, N] = img.sizes;
+  const imgGray = img.bgrToGray().getDataAsArray();
+  const P = M * 2,
+    Q = N * 2;
+  // Create adding
+  const imgPad = createImagePadding(imgGray, M, N);
+  // Convert complex for DFT
+  const matForDft: number[][][] = convertComplexNumber(imgPad, P, Q);
+
+  //   DFT Convert
+  const DFT = np.fft(np.array(matForDft));
+
+  //   Calucate the center
+  const center = [M, N];
+  //   Fillter H
+  let filterNP = np.zeros([P, Q], 'float32');
+  for (let i = 0; i < M * 2; i++)
+    for (let j = 0; j < N * 2; j++) {
       const radius = Math.sqrt(
         Math.pow(i - center[0], 2.0) + Math.pow(j - center[1], 2.0)
       );
 
-      arrayNP.set(i, j, 1 / (1 + Math.pow(radius / D0, 2 * order)));
+      filterNP.set(i, j, 1 / (1 + Math.pow(radius / D0, 2 * order)));
     }
+  const filterNPConverter: any = filterNP.tolist();
+  const hFilter = filterNPConverter as number[][];
 
-  let kernel = new cv.Mat(arrayNP.tolist(), cv.CV_32FC1);
+  //   Convert DFT to matrix
+  const DFTMatrix = DFT.tolist();
+  //   Multiply with filter
+  const g = complexMultiplyFilter(hFilter, DFTMatrix, P, Q);
 
-  //* Function filter
-  const imgFilter = await img.filter2DAsync(-1, kernel);
+  //   Inverter DFT
+  const iftReal = getIDFTReal(g);
+
+  const fillterImage = removeImagePadding(iftReal, M, N);
   const newFileName = fileName + uuid();
   //* Export
   await cv.imwriteAsync(
     join(global?.__basedir, 'public/dist', `${newFileName}_bw.${fileType}`),
-    imgFilter
+    new cv.Mat(fillterImage, cv.CV_32FC1)
   );
   return `${newFileName}_bw.${fileType}`;
 };

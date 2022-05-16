@@ -1,1 +1,1 @@
-export * from './Resize'
+export * from './resize'

@@ -12,11 +12,9 @@ import {
 router.post('/lowpass', async function (req, res) {
   try {
     const { filename } = req.query;
-    const { data, row, col } = req.body;
+    const { D0 } = req.body;
     const newFileName = await idealLowPassFilter(filename as string, {
-      row,
-      data,
-      col
+      D0
     });
     return res.status(200).json({ name: newFileName });
   } catch (err) {
@@ -31,10 +29,9 @@ router.post('/highpass', async function (req, res) {
   try {
     const { filename } = req.query;
     const { data, row, col } = req.body;
+    const { D0 } = req.body;
     const newFileName = await idealHighPassFilter(filename as string, {
-      row,
-      data,
-      col
+      D0
     });
     return res.status(200).json({ name: newFileName });
   } catch (err) {
