@@ -47,7 +47,7 @@ export const gaussianLowPassFilter = async (
       const radius =
         Math.pow(i - center[0], 2.0) + Math.pow(j - center[1], 2.0);
 
-      filterNP.set(i, j, Math.exp(radius / (2.0 * Math.pow(D0, 2.0))));
+      filterNP.set(i, j, Math.exp(-radius / (2.0 * Math.pow(D0, 2.0))));
     }
 
   const filterNPConverter: any = filterNP.tolist();
