@@ -6,7 +6,8 @@ import {
   butterworthLowPassFilter,
   butterworthHighPassFilter,
   gaussianLowPassFilter,
-  gaussianHighPassFilter
+  gaussianHighPassFilter,
+  laplacianFilter
 } from 'utils/frequency-filter';
 
 router.post('/lowpass', async function (req, res) {
@@ -16,6 +17,20 @@ router.post('/lowpass', async function (req, res) {
     const newFileName = await idealLowPassFilter(filename as string, {
       D0
     });
+    return res.status(200).json({ name: newFileName });
+  } catch (err) {
+    if (err instanceof Error) {
+      return res.status(400).json({ message: err?.message });
+    }
+    return res.status(400).json({ message: 'Unknown' });
+  }
+});
+
+router.post('/laplacian', async function (req, res) {
+  try {
+    const { filename } = req.query;
+
+    const newFileName = await laplacianFilter(filename as string);
     return res.status(200).json({ name: newFileName });
   } catch (err) {
     if (err instanceof Error) {
